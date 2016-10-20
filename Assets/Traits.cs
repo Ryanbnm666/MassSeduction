@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Traits : MonoBehaviour {
@@ -9,6 +10,7 @@ public class Traits : MonoBehaviour {
     public string trait2;
     public string trait3;
     public float like = 0.0f;
+    public Slider likeMeter;
 
     // Use this for initialization
     void Start () {
@@ -45,5 +47,8 @@ public class Traits : MonoBehaviour {
         {
             trait3 = "Introvert.";
         }
+
+
+        likeMeter.value = like;
     }
 }
