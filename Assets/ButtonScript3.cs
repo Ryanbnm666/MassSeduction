@@ -11,6 +11,7 @@ public class ButtonScript3 : MonoBehaviour
     public string currentTrait;
     public GameObject nuclear;
     public Traits nukeTrait;
+    public Dialogue dialogue;
     public Button yourButton;
     // Use this for initialization
     void Start()
@@ -48,11 +49,14 @@ public class ButtonScript3 : MonoBehaviour
         if (currentTrait == nukeTrait.trait3)
         {
             nukeTrait.like = (nukeTrait.like + 1);
+            dialogue.Success();
             print("Success.");
+
         }
         else if (currentTrait != nukeTrait.trait3)
         {
             nukeTrait.like = (nukeTrait.like - 1);
+            dialogue.Failure();
             print("Failure.");
         }
         theNumber = Random.value;
