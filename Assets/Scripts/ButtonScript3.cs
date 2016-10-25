@@ -13,8 +13,6 @@ public class ButtonScript3 : MonoBehaviour
     public Traits nukeTrait;
     public Dialogue dialogue;
     public Button yourButton;
-    public ButtonScript button;
-    public ButtonScript2 button2;
     // Use this for initialization
     void Start()
     {
@@ -43,8 +41,6 @@ public class ButtonScript3 : MonoBehaviour
         {
             currentTrait = traitNeg;
         }
-
-        yourButton.GetComponentInChildren<Text>().text = currentTrait;
     }
 
     void TaskOnClick()
@@ -64,8 +60,6 @@ public class ButtonScript3 : MonoBehaviour
             print("Failure.");
         }
         theNumber = Random.value;
-        button.theNumber = Random.value;
-        button2.theNumber = Random.value;
 
     }
 }
