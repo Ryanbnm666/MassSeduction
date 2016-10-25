@@ -6,42 +6,44 @@ using UnityEngine.SceneManagement;
 
 public class gamerunner : MonoBehaviour {
 
-    float levelTimer;
 
-    public GameObject indicator;
 
-    public Button[] button;
-    Dictionary<ButtonColour, Button> colouredButton;
-    ButtonColour[] colourList;
+    float levelTimer;               //Time since the level started
+    float timeLeft;                 //Time left in the slider
+    float waitTime;                 //Time to wait until moving back to dating scene
+    float timeMultiplier;           //After a score of 40 the multiplier goes to to make it harder
 
-    public GameObject explosionQuad;
-    public Canvas UICanvas;
 
-    public Image gameOver;
+    public Slider timeLeftSlide;    //Slider that displays the time left
+    public GameObject indicator;    //The colour indicator at the bottom of the screen
 
-    float timeLeft;
-    float waitTime;
-    public Slider timeLeftSlide;
-    float timeMultiplier;
+    public Canvas UICanvas;         //The UI canvas that stores all UI elements (disabled when nuke explodes)
+    public Button[] button;         //Array containing all colour buttons
+    public Image gameOver;          //Game over text used to display 'Well done'
+    public Text scoreText;          //Text item that displays the score
 
-    public Text scoreText;
+    Dictionary<ButtonColour, Button> colouredButton;    //Dictionary linking buttons with colour properties
+    ButtonColour[] colourList;          //List of possible button colours that is shuffled each correct press
+    ButtonColour newColour;             //The colour that is represented in the indicator
+    public GameObject explosionQuad;    //The explosion quad that displays nuke explosion on failure
+ 
+    bool buttonPressed;             //Bool storing is a button was recently corretly pressed
+    bool gameRunning;               //Bool to store running state
+    bool gameWon;                   //Bool to store if game is won
+    bool gameStarted;               //Bool to store if game has been started
 
-    ButtonColour newColour;
-
-    bool buttonPressed;
-    bool gameRunning;
-    bool gameWon;
-    bool gameStarted;
-
-    int totalPressed;
+    int totalPressed;               //Total score
 
 	// Use this for initialization
 	void Start () {
+
+        //Initialize variables
         levelTimer = -1.0f;
         totalPressed = 0;
         waitTime = 0.0f;
         timeLeft = 15.0f;
         timeMultiplier = 1.0f;
+
         //Set colours
         colourList = new ButtonColour[9];
         colourList[0] = new ButtonColour("red");
@@ -54,24 +56,31 @@ public class gamerunner : MonoBehaviour {
         colourList[7] = new ButtonColour("orange");
         colourList[8] = new ButtonColour("black");
 
+        //Initialize variables
         gameWon = false;
         gameStarted = false;
+
+        //Hide game over text
         gameOver.enabled = false;
         gameOver.GetComponentInChildren<Text>().enabled = false;
     }
 	
 	// Update is called once per frame
 	void Update () {
+        //Increment time each frame
         levelTimer += Time.deltaTime;
 
         //Show Ready Set Go at begning of level
         readySetGo();
 
+        //Do logic if the game is now running
         if(gameRunning)
         {
+            //Subtract from time left multiplied by time difficulty multiplier and set slider value
             timeLeft -= Time.deltaTime * timeMultiplier;
             timeLeftSlide.value = timeLeft;
 
+            //If the correct button has just been pressed generate new colours, add score and add time to timer
             if (buttonPressed)
             {
                 updateColours();
@@ -80,6 +89,7 @@ public class gamerunner : MonoBehaviour {
                 timeLeft += 0.50f;
             }
 
+            //Change difficulty multiplier after 40
             if(totalPressed > 40 && totalPressed < 50)
             {
                 timeMultiplier = 1.2f;
@@ -94,22 +104,24 @@ public class gamerunner : MonoBehaviour {
             }
 
 
-
+            //If no time is left then the game is over
             if (timeLeft < 0.0f)
             {
                 gameRunning = false;
-                waitTime = levelTimer + 5.0f;
+                waitTime = levelTimer + 5.0f; //Wait time is the time that the level will change to the dating scene (now + 5s)
 
+                //If score is < 40 then the player has lost, hide canvas and show explosion
                 if (totalPressed < 40)
                 {
                     UICanvas.enabled = false;
                     explosionQuad.SetActive(true);
                 }
+                //If score is > 40 then the player has won, congratulate the player!
                 else
                 {
                     gameOver.enabled = true;
                     gameOver.GetComponentInChildren<Text>().enabled = true;
-                    gameOver.GetComponentInChildren<Text>().text = "WELL DONE!";
+                    gameOver.GetComponentInChildren<Text>().text = "WELL DONE!\n" + "Score: " + totalPressed ;
                 }
             }
         }
@@ -144,23 +156,23 @@ public class gamerunner : MonoBehaviour {
         buttonPressed = false;
     }
 
+    //Set the colours for each button to the newly shuffled colour list
     void setColours()
     {
         colouredButton = new Dictionary<ButtonColour, Button>();
-
 
         for (int i = 0; i < button.Length; i++)
         {
             colouredButton.Add(colourList[i], button[i]);
             button[i].image.color = colourList[i].colour;
         }
-
     }
 
 
     //Shuffle a list of colours
     void shuffleColours(ButtonColour[] colourList)
     {
+        //Loop through all colours and shuffle them
         for(int i = 0; i < colourList.Length; i++)
         {
             int rand = Random.Range(0,i);
@@ -172,6 +184,7 @@ public class gamerunner : MonoBehaviour {
     }
 
 
+    //Display 'Ready', 'Set', and 'Go' in the indicator - also start the game once sequence is over
     void readySetGo()
     {
         if (levelTimer > 0.0f && levelTimer < 1.5f)
@@ -192,11 +205,12 @@ public class gamerunner : MonoBehaviour {
         {
             gameRunning = true;
             gameStarted = true;
-            updateColours();
+            updateColours();    //Shuffle and set coloured buttons
             
         }
     }
 
+    //Called by a button when it is pressed
     public void press(string btnName)
     {
         foreach(KeyValuePair<ButtonColour, Button> button in colouredButton)
@@ -207,12 +221,12 @@ public class gamerunner : MonoBehaviour {
                 //Check it it's the correct colour
                 if(button.Key.strColour == newColour.strColour)
                 {
-                    Debug.Log("CORRECT COLOUR PRESSED");
+                    //The button is pressed, logic for what happens now is in the main loop
                     buttonPressed = true;
                 }
                 else
                 {
-                    Debug.Log("WRONG BUTTON");
+                    //The wrong button has been pressed, punish the player by subtracting 1/4 seconds
                     timeLeft -= 0.25f;
                 }
             }
@@ -220,6 +234,8 @@ public class gamerunner : MonoBehaviour {
     }
 }
 
+
+//Button colour class stores a colour along with it's string representation
 class ButtonColour
 {
 
@@ -228,6 +244,7 @@ class ButtonColour
 
     public ButtonColour(string strColour)
     {
+        //Construct the ButtonColour using the string and setting the appropriate colour
         this.strColour = strColour;
         switch (strColour)
         {

@@ -17,6 +17,7 @@ public class Dialogue : MonoBehaviour {
         dialoguePass.Add("How's a nuke like you end up in a place like this?");
         dialoguePass.Add("You're positively glowing!");
         dialoguePass.Add("You come here often?");
+        dialoguePass.Add("Ooh, i like the size of your payload!");
 
         dialogueFail.Add("I've seen thinner nukes before!");
         dialogueFail.Add("Tell me more about your sister.");
