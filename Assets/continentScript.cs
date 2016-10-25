@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class continentScript : MonoBehaviour {
@@ -7,11 +8,13 @@ public class continentScript : MonoBehaviour {
     public string continentName = "<UNDEFINED>";
     string nukePrefix = "\n-> Nuke is ";
     string nukeStatus = "[not launched].";
+    
+   
     int nuke = 0;
 
     // Use this for initialization
     void Start () {
-	
+	    
 	}
 	
 	// Update is called once per frame
@@ -35,12 +38,22 @@ public class continentScript : MonoBehaviour {
     void OnMouseOver()
     {
         mouseOver = true;
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("clicked!");
+            SceneManager.LoadScene("DatingScene");
+        }
     }
 
     void OnMouseExit()
     {
         mouseOver = false;
+      
     }
+
+    
+        
+    
 
     void OnGUI()
     {
@@ -59,3 +72,39 @@ public class continentScript : MonoBehaviour {
         
     }
 }
+
+public class NORTH_AMERICA
+{
+     public float deathToll = 8124170;
+};
+public class SOUTH_AMERICA
+{
+    public float deathToll = 3143530;
+};
+public class ASIA
+{
+    public float deathToll = 17132742;
+};
+public class AFRICA
+{
+    public float deathToll = 5120998;
+};
+public class EUROPE
+{ 
+    public float deathToll = 4824170;
+};
+
+public class OCEANIA
+{
+    public float deathToll = 2580209;
+};
+
+public class Continents
+{
+    NORTH_AMERICA NORTH_AMERICA;
+    SOUTH_AMERICA SOUTH_AMERICA;
+    ASIA ASIA;
+    AFRICA AFRICA;
+    EUROPE EUROPE;
+    OCEANIA OCEANIA;
+};

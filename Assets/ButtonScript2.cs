@@ -6,13 +6,15 @@ public class ButtonScript2 : MonoBehaviour
 {
     public float theNumber;
     public bool myBool;
-    public string traitPos = "Outgoing.";
-    public string traitNeg = "Introvert.";
+    public string traitPos = "Sassy.";
+    public string traitNeg = "Polite.";
     public string currentTrait;
     public GameObject nuclear;
     public Traits nukeTrait;
     public Dialogue dialogue;
     public Button yourButton;
+    public ButtonScript button;
+    public ButtonScript3 button3;
     // Use this for initialization
     void Start()
     {
@@ -41,6 +43,8 @@ public class ButtonScript2 : MonoBehaviour
         {
             currentTrait = traitNeg;
         }
+
+        yourButton.GetComponentInChildren<Text>().text = currentTrait;
     }
 
     void TaskOnClick()
@@ -59,6 +63,8 @@ public class ButtonScript2 : MonoBehaviour
             print("Failure.");
         }
         theNumber = Random.value;
+        button.theNumber = Random.value;
+        button3.theNumber = Random.value;
 
     }
 }
