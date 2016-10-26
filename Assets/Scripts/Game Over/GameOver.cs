@@ -13,6 +13,7 @@ public class GameOver : MonoBehaviour {
 	void Update () {
         if (Input.GetButton("Space"))
         {
+            FindObjectOfType<Persist>().dest();
             SceneManager.LoadScene("Menu", LoadSceneMode.Single);
         }
 

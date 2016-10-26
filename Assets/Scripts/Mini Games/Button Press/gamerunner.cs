@@ -130,7 +130,17 @@ public class gamerunner : MonoBehaviour {
         //If wait timer has been set then the level is over, go back to dating scene
         if (levelTimer > waitTime && waitTime != 0.0f)
         {
-            SceneManager.LoadScene("DatingScene", LoadSceneMode.Single);
+            ////////////////////////////////////////////////////////
+            /// CODE TO RETURN A NUKE AND GO BACK TO WORLD SCENE ///
+
+            //Set to 2 (returning) and clear current
+            Debug.Log(FindObjectOfType<Persist>().current + " SET TO RETURNING");
+
+            FindObjectOfType<Persist>().continent[FindObjectOfType<Persist>().current] = 2;
+            FindObjectOfType<Persist>().current = "";
+            SceneManager.LoadScene("WorldScene");
+
+            ////////////////////////////////////////////////////////
         }
 
     }

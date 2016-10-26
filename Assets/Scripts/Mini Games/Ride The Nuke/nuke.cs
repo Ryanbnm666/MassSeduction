@@ -28,7 +28,17 @@ public class nuke : MonoBehaviour {
 
         if(transform.position.x > 20.0f)
         {
-            SceneManager.LoadScene("DatingScene", LoadSceneMode.Single);
+            ////////////////////////////////////////////////////////
+            /// CODE TO RETURN A NUKE AND GO BACK TO WORLD SCENE ///
+
+            //Set to 2 (returning) and clear current
+            Debug.Log(FindObjectOfType<Persist>().current + " SET TO RETURNING");
+
+            FindObjectOfType<Persist>().continent[FindObjectOfType<Persist>().current] = 2;
+            FindObjectOfType<Persist>().current = "";
+            SceneManager.LoadScene("WorldScene");
+
+            ////////////////////////////////////////////////////////
         }
 
     }

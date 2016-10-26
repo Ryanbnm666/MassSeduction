@@ -15,6 +15,7 @@ public class MapManager : MonoBehaviour {
 
     float mapTimer;
 
+    public bool activeScene;
 
     bool[] nukesLaunched;
     float[] launchTimes;
@@ -32,6 +33,8 @@ public class MapManager : MonoBehaviour {
     // Use this for initialization
     void Start () {
         mapTimer = 0.0f;
+
+        activeScene = true;
 
         nukesLaunched = new bool[6];
         launchTimes = new float[6];

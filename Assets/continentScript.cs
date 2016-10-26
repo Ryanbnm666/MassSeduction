@@ -6,41 +6,66 @@ public class continentScript : MonoBehaviour {
 
     bool mouseOver = false;
     public string continentName = "<UNDEFINED>";
-    string nukePrefix = "\n-> Nuke is ";
-    string nukeStatus = "[not launched].";
-    
+    public string contName;
+    public string nukePrefix = "\n-> Nuke is ";
+    public string nukeStatus = "[not launched].";
+
+    float returnTimer;
    
-    int nuke = 0;
+    public int nuke = 0;
 
     // Use this for initialization
     void Start () {
-	    
-	}
+        returnTimer = 0.0f;
+        contName = continentName;
+        nuke = FindObjectOfType<Persist>().continent[contName];
+    }
 	
 	// Update is called once per frame
 	void Update () {
         OnGUI();
 
+        FindObjectOfType<Persist>().continent[contName] = nuke;
+
         if (nuke == 0)
         {
             nukeStatus = "[not launched].";
+            
         }
         else if (nuke == 1)
         {
             nukeStatus = "[incoming].";
+            GetComponent<SpriteRenderer>().color = Color.white;
         }
         else if (nuke == 2)
         {
             nukeStatus = "[returning].";
         }
-	}
+        else if (nuke == 3)
+        {
+            nukeStatus = "[returned].";
+            GetComponent<SpriteRenderer>().color = Color.black;
+        }
+
+
+        if(nuke == 2)
+        {
+            returnTimer += Time.deltaTime;
+        }
+
+        if(returnTimer > 10.0f)
+        {
+            nuke = 3;
+        }
+    }
 
     void OnMouseOver()
     {
         mouseOver = true;
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && nuke == 1)
         {
             Debug.Log("clicked!");
+            FindObjectOfType<Persist>().current = contName;
             SceneManager.LoadScene("DatingScene");
         }
     }
@@ -61,8 +86,7 @@ public class continentScript : MonoBehaviour {
         {
             GUI.enabled = true;
             //continentName = GUI.TextField(new Rect(225, 62, 410, 20), continentName, 25);
-            continentName = GUI.TextField(new Rect(Input.mousePosition.x + 20, Screen.height - Input.mousePosition.y + 20, 
-                160, 38), continentName + nukePrefix + nukeStatus);
+            continentName = GUI.TextField(new Rect(Input.mousePosition.x + 20, Screen.height - Input.mousePosition.y + 20, 160, 38), continentName + nukePrefix + nukeStatus);
         }
         else
         {

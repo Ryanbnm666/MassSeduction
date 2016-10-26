@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Traits : MonoBehaviour {
     public float intelligence = 0.0f;
@@ -11,6 +12,8 @@ public class Traits : MonoBehaviour {
     public string trait3;
     public float like = 0.0f;
     public Slider likeMeter;
+
+
 
     // Use this for initialization
     void Start () {
@@ -50,5 +53,30 @@ public class Traits : MonoBehaviour {
 
 
         likeMeter.value = like;
+
+        if(likeMeter.value >= 10)
+        {
+
+            int randGame = Random.Range(1,4);
+
+            switch(randGame)
+            {
+                case 1:
+                    SceneManager.LoadScene("ButtonPress");
+                    break;
+                case 2:
+                    SceneManager.LoadScene("PanelRemoving");
+                    break;
+                case 3:
+                    SceneManager.LoadScene("RideTheNuke");
+                    break;
+                case 4:
+                default:
+                    SceneManager.LoadScene("ThrustMash");
+                    break;
+            }
+
+
+        }
     }
 }

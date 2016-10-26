@@ -21,9 +21,20 @@ public class Nuke : MonoBehaviour {
 
     public float fracJourney;
 
+    SpriteRenderer sprender;
+
+    GameObject mapManagerObj;
+    MapManager mapManager;
+
+
     // Use this for initialization
     void Start () {
         fracJourney = 0.0f;
+
+        mapManagerObj = GameObject.Find("MapManager");
+        mapManager = mapManagerObj.GetComponent<MapManager>();
+
+        sprender = GetComponents<SpriteRenderer>()[0];
 
         nukeStart = nukeOrigin.transform;
         nukeEnd = nukeDestination.transform;
@@ -37,7 +48,7 @@ public class Nuke : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if(nukeEnabled)
+        if (nukeEnabled)
         {
             
             float distCovered = (Time.time - startTime) * nukeSpeed;
@@ -78,8 +89,6 @@ public class Nuke : MonoBehaviour {
                 if(nukeDestination.name == "WestKorea")
                 {
                     //Debug.Log("GAME OVER! NUKE LANDED IN WEST KOREA");
-                    GameObject mapManagerObj = GameObject.Find("MapManager");
-                    MapManager mapManager = mapManagerObj.GetComponent<MapManager>();
                     mapManager.gameOver();
                 }
                 else

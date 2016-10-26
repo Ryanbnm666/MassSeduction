@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class drawScript : MonoBehaviour {
 	LineRenderer line;
@@ -76,10 +77,21 @@ public class drawScript : MonoBehaviour {
 
 	void gameComplete()
 	{
-		//CODE FOR WHEN GAME IS OVER GOES HERE//
-	}
+        //CODE FOR WHEN GAME IS OVER GOES HERE//
+        ////////////////////////////////////////////////////////
+        /// CODE TO RETURN A NUKE AND GO BACK TO WORLD SCENE ///
 
-	void OnMouseEnter()
+        //Set to 2 (returning) and clear current
+        Debug.Log(FindObjectOfType<Persist>().current + " SET TO RETURNING");
+
+        FindObjectOfType<Persist>().continent[FindObjectOfType<Persist>().current] = 2;
+        FindObjectOfType<Persist>().current = "";
+        SceneManager.LoadScene("WorldScene");
+
+        ////////////////////////////////////////////////////////
+    }
+
+    void OnMouseEnter()
 	{
 		if (mouseDown == true)
 		{

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class ButtonScript : MonoBehaviour {
     public float theNumber;
@@ -48,8 +49,8 @@ public class ButtonScript : MonoBehaviour {
 
     void TaskOnClick()
     {
-    
-       Debug.Log("clicked!");
+
+        Debug.Log("clicked!");
         if (currentTrait == nukeTrait.trait1)
         {
             nukeTrait.like = (nukeTrait.like + 1);
