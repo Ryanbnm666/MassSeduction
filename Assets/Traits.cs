@@ -10,7 +10,7 @@ public class Traits : MonoBehaviour {
     public string trait1;
     public string trait2;
     public string trait3;
-    public float like = 0.0f;
+    public float like = 5.0f;
     public Slider likeMeter;
 
 
@@ -57,23 +57,23 @@ public class Traits : MonoBehaviour {
         if(likeMeter.value >= 10)
         {
 
-            int randGame = Random.Range(1,4);
+            int randGame = Random.Range(0,101);
 
-            switch(randGame)
+            if(randGame < 25)
             {
-                case 1:
-                    SceneManager.LoadScene("ButtonPress");
-                    break;
-                case 2:
-                    SceneManager.LoadScene("PanelRemoving");
-                    break;
-                case 3:
-                    SceneManager.LoadScene("RideTheNuke");
-                    break;
-                case 4:
-                default:
-                    SceneManager.LoadScene("ThrustMash");
-                    break;
+                SceneManager.LoadScene("ButtonPress");
+            }
+            else if (randGame >= 25 && randGame < 50)
+            {
+                SceneManager.LoadScene("PanelRemoving");
+            }
+            else if (randGame >= 50 && randGame < 75)
+            {
+                SceneManager.LoadScene("RideTheNuke");
+            }
+            else if (randGame >= 75 && randGame < 100)
+            {
+                SceneManager.LoadScene("ThrustMash");
             }
 
 
